@@ -190,22 +190,53 @@
       ::-webkit-input-placeholder {
         text-align: center;
       }
+
+      .btn {
+        background: gray;
+        background-image: -webkit-linear-gradient(top, gray, gray);
+        background-image: -moz-linear-gradient(top, gray, gray);
+        background-image: -ms-linear-gradient(top, gray, gray);
+        background-image: -o-linear-gradient(top, gray, gray);
+        background-image: linear-gradient(to bottom, gray, gray);
+        -webkit-border-radius: 28;
+        -moz-border-radius: 28;
+        border-radius: 10px;
+        margin-left: 240px;
+        margin-top: 10px;
+        font-family: Arial;
+        color: white;
+        font-size: 12px;
+        height: 35px;
+        padding: 7px 15px 7px 15px;
+        border: solid gray 3px;
+        text-decoration: none;
+      }
+
+      .btn:hover {
+        text-decoration: none;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <div class="main">
       <div class="heading">
-        <h3 class="text">Anonymous Chat App</h3>
+        <h3 class="text" width="150px"><i class="fa fa-comments" style="margin-right: 8px; white-space: nowrap;
+          overflow: hidden;"></i>Anonymous Chat App</h3>
+        <button class="btn">Clear Chat</button>
       </div>
 
       <hr style="margin-top: -5px" />
-      <div class="messages">
-        <p style="text-align: center; font-style: oblique">
-          Introduce yourself anonymously in one line and enjoy chatting with
-          many other anonymous people ...
-        </p>
-        <hr />
-        <h4 style="text-align: center" id="time_now"></h4>
+      <div>
+        <div class="intro">
+          <p style="text-align: center; font-style: oblique">
+            Introduce yourself anonymously in one line and enjoy chatting with
+            many other anonymous people ...
+          </p>
+          <hr />
+          <h4 style="text-align: center" id="time_now"></h4>
+        </div>
+        <div class="messages"></div>
       </div>
 
       <div
@@ -241,7 +272,7 @@
         $("#time_now").text(moment().format("llll"));
       });
 
-      var socket = new WebSocket("wss://anonymous-chat-app.onrender.com/", "a");
+      var socket = new WebSocket("wss://5fde-115-99-243-22.ngrok.io/", "a");
       socket.onopen = function () {
         console.log("inside onopen");
         if (socket.readyState === 1) {
@@ -280,6 +311,10 @@
           socket.send($("#text").val());
           $("#text").val("");
         }
+      });
+
+      $(".btn").on("click", function (e) {
+        $(".messages").html("");
       });
 
       $(document).on("keypress", function (e) {
