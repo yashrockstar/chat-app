@@ -200,8 +200,11 @@
 
       <hr style="margin-top: -5px" />
       <div class="messages">
-        <p style="text-align: center; font-style: oblique;"> Introduce yourself anonymously in one line and enjoy chatting with many other anonymous people ... </p>
-        <hr>
+        <p style="text-align: center; font-style: oblique">
+          Introduce yourself anonymously in one line and enjoy chatting with
+          many other anonymous people ...
+        </p>
+        <hr />
         <h4 style="text-align: center" id="time_now"></h4>
       </div>
 
@@ -261,20 +264,30 @@
           </div>
         </div>`;
         $(".messages").append(html);
-        $(".messages").animate({ scrollTop: $('.messages').prop("scrollHeight") - $('.messages').height() }, "fast");
+        $(".messages").animate(
+          {
+            scrollTop:
+              $(".messages").prop("scrollHeight") - $(".messages").height(),
+          },
+          "fast"
+        );
       };
       socket.onclose = function () {};
       socket.onerror = function () {};
 
       $("#message_send").on("click", function (e) {
-        socket.send($("#text").val());
-        $("#text").val("");
+        if ($("#text").val() != null && $("#text").val() != "") {
+          socket.send($("#text").val());
+          $("#text").val("");
+        }
       });
 
       $(document).on("keypress", function (e) {
         if (e.which == 13) {
-          socket.send($("#text").val());
-          $("#text").val("");
+          if ($("#text").val() != null && $("#text").val() != "") {
+            socket.send($("#text").val());
+            $("#text").val("");
+          }
         }
       });
     </script>
