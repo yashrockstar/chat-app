@@ -12,20 +12,17 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
     />
     <style>
+      body{
+        display: flex;
+        justify-content: center;
+      }
       .main {
-        margin-left: 600px;
-        margin-top: 40px;
-        align-items: center;
+        margin-top: 30px;
         border-radius: 21px;
         background-color: rgb(241, 239, 236);
         border: 2px solid black;
-        height: 850px;
+        height: 90vh;
         width: 600px;
-      }
-
-      .arrow {
-        margin-left: 30px;
-        margin-top: 20px;
       }
 
       .left {
@@ -55,28 +52,12 @@
         margin-left: 35px;
       }
 
-      .six {
-        margin-left: 80px;
-      }
-
-      .sec {
-        display: flex;
-        margin-top: -9px;
-      }
-
-      .sign {
-        margin-left: 30px;
-      }
 
       .seven {
         margin-left: 30px;
       }
 
-      .dot {
-        margin-left: 270px;
-      }
-
-      .third {
+            .third {
         display: flex;
         margin-top: -40px;
       }
@@ -105,42 +86,12 @@
         height: 160px;
         margin-top: 18px;
       }
-
-      .pizza {
-        margin-left: 20px;
-        margin-top: -10px;
-        background-color: aliceblue;
-        width: 120px;
-        border-radius: 16px;
-      }
-
-      .burger {
-        margin-left: 20px;
-        margin-top: -10px;
-        background-color: aliceblue;
-        width: 120px;
-        border-radius: 10px;
-      }
-
       .send {
         background-color: gray;
         height: 90px;
         width: 570px;
-        margin-left: 12px;
-        margin-top: -25px;
+        margin-left: 15px;
         border-radius: 12px;
-      }
-
-      .plus {
-        color: gray;
-        height: 35px;
-        width: 35px;
-        background-color: white;
-        text-align: center;
-        margin-left: 20px;
-        font-size: 30px;
-        border-radius: 8px;
-        margin-top: -16px;
       }
 
       .black {
@@ -151,16 +102,6 @@
         margin-left: 470px;
         margin-top: 20px;
         border-radius: 5px;
-      }
-
-      .play {
-        margin-top: 15px;
-        background-color: wheat;
-        margin-left: 380px;
-        width: 170px;
-        height: 35px;
-        border-radius: 12px;
-        display: flex;
       }
 
       .img {
@@ -201,7 +142,7 @@
         -webkit-border-radius: 28;
         -moz-border-radius: 28;
         border-radius: 10px;
-        margin-left: 240px;
+        margin-left: 80px;
         margin-top: 10px;
         font-family: Arial;
         color: white;
@@ -215,21 +156,30 @@
       .btn:hover {
         text-decoration: none;
         cursor: pointer;
+        background: rgb(51, 50, 50);
       }
     </style>
   </head>
   <body>
     <div class="main">
       <div class="heading">
-        <h3 class="text" width="150px"><i class="fa fa-comments" style="margin-right: 8px; white-space: nowrap;
-          overflow: hidden;"></i>Anonymous Chat App</h3>
-        <button class="btn">Clear Chat</button>
+        <h3 class="text" width="150px">
+          <i
+            class="fa fa-comments"
+            style="margin-right: 8px; white-space: nowrap; overflow: hidden"
+          ></i
+          >Anonymous Chat App
+        </h3>
+        <button class="btn" id="audio_timer" style="display: none"></button>
+        <button class="btn" style="margin-left: auto; margin-right: 10px">
+          Clear Chat
+        </button>
       </div>
-
-      <hr style="margin-top: -5px" />
+      <hr />
+      <!-- <hr style="margin-top: -5px" /> -->
       <div>
         <div class="intro">
-          <p style="text-align: center; font-style: oblique ; padding: 10px;">
+          <p style="text-align: center; font-style: oblique; padding: 10px">
             Introduce yourself anonymously in one line and enjoy chatting with
             many other anonymous people ...
           </p>
@@ -241,25 +191,32 @@
 
       <div
         class="send"
-        style="display: flex; position: fixed; bottom: 0; margin-bottom: 80px"
+        style="display: flex; position: fixed; bottom: 9vh;"
       >
         <input
           id="text"
           placeholder="Type your message"
           style="
-            width: 460px;
+            width: 440px;
             margin-left: 15px;
             height: 50px;
             margin-top: 15px;
             border-radius: 12px;
           "
         />
-        <div style="padding-top: 10px; margin-left: 20px" id="message_send">
+        <div style="padding-top: 10px; margin-left: 15px" id="message_send">
+          <i
+            id="record"
+            class="fa-2x fa-solid fa-microphone"
+            style="color: darkgray"
+            onMouseOver="this.style.color='wheat'; this.style.cursor='pointer';"
+            onMouseOut="this.style.color='darkgray'"
+          ></i>
           <i
             class="fa fa-2x fa-paper-plane"
-            style="color: aliceblue; margin-top: 20px"
+            style="color: darkgray; margin-top: 20px; margin-left: 10px"
             onMouseOver="this.style.color='wheat'; this.style.cursor='pointer';"
-            onMouseOut="this.style.color='aliceblue'"
+            onMouseOut="this.style.color='darkgray'"
             aria-hidden="true"
           ></i>
         </div>
@@ -267,20 +224,16 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://sdk.symbl.ai/js/beta/symbl-web-sdk/latest/symbl.min.js"></script>
     <script>
+      const connection = null;
       $(document).ready(function () {
         $("#time_now").text(moment().format("llll"));
       });
 
       var socket = new WebSocket("wss://anonymous-chat-app.onrender.com/", "a");
-      socket.onopen = function () {
-        console.log("inside onopen");
-        if (socket.readyState === 1) {
-          console.log("connection established");
-        }
-      };
       socket.onmessage = function (e) {
-        var now = moment().format('LT');
+        var now = moment().format("LT");
         var html = `<div style="display: flex; margin-top: 3px;">
           <div class="img" style="margin-top: 5px">
             <img
@@ -307,8 +260,6 @@
           "fast"
         );
       };
-      socket.onclose = function () {};
-      socket.onerror = function () {};
 
       $("#message_send").on("click", function (e) {
         if ($("#text").val() != null && $("#text").val() != "") {
@@ -329,6 +280,68 @@
           }
         }
       });
+
+      $("#record").on("click", function (e) {
+        $("#audio_timer").show();
+        var maxTime = 12;
+        var time = 0;
+        while (time <= 12) {
+          if(maxTime>=0){
+            $("#audio_timer").text(maxTime);
+          }
+          sleep(1000);
+          time++;
+          maxTime--;
+        }
+
+       // start();
+      });
+
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      const start = async () => {
+        try {
+          const symbl = new Symbl({
+            appId:
+              "6368524978525157534f4c33726265785672545a70416e754d3652666b6c694c",
+            appSecret:
+              "7a3342496566734e4863346a4462594f775678315f4b326f32615435367241667a6246314d486954724d4166524f476a766f356a503948506835694e54365a6d",
+          });
+          const connection = await symbl.createAndStartNewConnection();
+          connection.on("speech_recognition", (speechData) => {
+            const name = speechData.user ? speechData.user.name : "User";
+            const transcript = speechData.punctuated.transcript;
+
+            if (speechData.isFinal) {
+              var now = moment().format("LT");
+              var html = `<div style="display: flex; margin-top: 3px;">
+          <div class="img" style="margin-top: 5px">
+            <img
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuSosG1ERwsITqkXpEd89Xq001RZZziQRMQQ&usqp=CAU"
+              alt=""
+              class="card-img"
+            />
+          </div>
+          <div class="mess">
+            <h4 style="margin: 13px; font-family: 'Brush Script MT', cursive; font-weight: lighter;">
+              ${transcript}
+            </h4>
+          </div>
+          <div style="margin-top:18px ; margin-left: 5px ; font-weight: bold; font-size:12px ;">
+            ${now}
+            <div>
+        </div>`;
+              $(".messages").append(html);
+            }
+          });
+
+          await Symbl.wait(12000);
+          await connection.stopProcessing();
+          connection.disconnect();
+        } catch (e) {}
+      };
     </script>
   </body>
 </html>
