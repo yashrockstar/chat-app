@@ -183,7 +183,7 @@
       }
 
       .messages {
-        height: 650px;
+        height: 535px;
         overflow-y: scroll;
       }
 
@@ -272,7 +272,7 @@
         $("#time_now").text(moment().format("llll"));
       });
 
-      var socket = new WebSocket("wss://anonymous-chat-app.onrender.com/", "a");
+      var socket = new WebSocket("wss://5fde-115-99-243-22.ngrok.io/", "a");
       socket.onopen = function () {
         console.log("inside onopen");
         if (socket.readyState === 1) {
@@ -280,6 +280,7 @@
         }
       };
       socket.onmessage = function (e) {
+        var now = moment().format('LT');
         var html = `<div style="display: flex; margin-top: 3px;">
           <div class="img" style="margin-top: 5px">
             <img
@@ -293,6 +294,9 @@
               ${e.data}
             </h4>
           </div>
+          <div style="margin-top:18px ; margin-left: 5px ; font-weight: bold; font-size:12px ;">
+            ${now}
+            <div>
         </div>`;
         $(".messages").append(html);
         $(".messages").animate(
