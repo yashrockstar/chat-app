@@ -272,7 +272,7 @@
         $("#time_now").text(moment().format("llll"));
       });
 
-      var socket = new WebSocket("wss://5fde-115-99-243-22.ngrok.io/", "a");
+      var socket = new WebSocket("wss://anonymous-chat-app.onrender.com/", "a");
       socket.onopen = function () {
         console.log("inside onopen");
         if (socket.readyState === 1) {
