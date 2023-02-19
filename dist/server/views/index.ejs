@@ -288,10 +288,30 @@
             return;
           }
 
-          $("#audio_timer").html("Left "+count + " secs");
-          if(count == 0){
-            $("#audio_timer").hide()
-          }else{
+          $("#audio_timer").html("Left " + count + " secs");
+
+          if(count <= 3){
+            $("#audio_timer")
+            .queue(function (next) {
+              $(this).css("color", "lightcoral");
+              next();
+            })
+            .delay(500)
+            .queue(function (next) {
+              $(this).css("color", "white");
+              next();
+            })
+            .delay(500)
+            .queue(function (next) {
+              $(this).css("color", "lightcoral");
+              next();
+            })
+            .delay(500);
+          }
+
+          if (count == 0) {
+            $("#audio_timer").hide();
+          } else {
             $("#audio_timer").show();
           }
         }
