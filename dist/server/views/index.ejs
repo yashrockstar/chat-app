@@ -12,7 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
     />
     <style>
-      body{
+      body {
         display: flex;
         justify-content: center;
       }
@@ -46,18 +46,18 @@
 
       .heading {
         display: flex;
+        margin-top: 5px;
       }
 
       .text {
         margin-left: 35px;
       }
 
-
       .seven {
         margin-left: 30px;
       }
 
-            .third {
+      .third {
         display: flex;
         margin-top: -40px;
       }
@@ -189,10 +189,7 @@
         <div class="messages"></div>
       </div>
 
-      <div
-        class="send"
-        style="display: flex; position: fixed; bottom: 9vh;"
-      >
+      <div class="send" style="display: flex; position: fixed; bottom: 9vh">
         <input
           id="text"
           placeholder="Type your message"
@@ -209,13 +206,13 @@
             id="record"
             class="fa-2x fa-solid fa-microphone"
             style="color: darkgray"
-            onMouseOver="this.style.color='wheat'; this.style.cursor='pointer';"
+            onMouseOver="this.style.color='white'; this.style.cursor='pointer';"
             onMouseOut="this.style.color='darkgray'"
           ></i>
           <i
             class="fa fa-2x fa-paper-plane"
             style="color: darkgray; margin-top: 20px; margin-left: 10px"
-            onMouseOver="this.style.color='wheat'; this.style.cursor='pointer';"
+            onMouseOver="this.style.color='white'; this.style.cursor='pointer';"
             onMouseOut="this.style.color='darkgray'"
             aria-hidden="true"
           ></i>
@@ -282,19 +279,24 @@
       });
 
       $("#record").on("click", function (e) {
-        $("#audio_timer").show();
-        var maxTime = 12;
-        var time = 0;
-        while (time <= 12) {
-          if(maxTime>=0){
-            $("#audio_timer").text(maxTime);
+        var count = 13;
+        var counter = setInterval(timer, 1000);
+        function timer() {
+          count = count - 1;
+          if (count < 0) {
+            clearInterval(counter);
+            return;
           }
-          sleep(1000);
-          time++;
-          maxTime--;
+
+          $("#audio_timer").html("Left "+count + " secs");
+          if(count == 0){
+            $("#audio_timer").hide()
+          }else{
+            $("#audio_timer").show();
+          }
         }
 
-       // start();
+        start();
       });
 
       function sleep(ms) {
